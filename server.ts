@@ -126,6 +126,35 @@ app.delete("/residents/:id", (req, res) => {
   }
 });
 
+app.patch("/residents/:id", (req, res) => {
+  const foundId = Number(req.params.id);
+  const match = residents.find((resident) => resident.id === foundId);
+
+  if (match) {
+    if (req.body.name) match.name = req.body.name;
+    if (req.body.age) match.age = req.body.age;
+    if (req.body.gender) match.gender = req.body.gender;
+    if (req.body.houseId) match.houseId = req.body.houseId;
+    res.send(match);
+  } else {
+    res.status(404).send({ error: "resident not found." });
+  }
+});
+
+app.patch("/houses/:id", (req, res) => {
+  const foundId = Number(req.params.id);
+  const match = houses.find((house) => house.id === foundId);
+
+  if (match) {
+    if (req.body.address) match.address = req.body.address;
+    if (req.body.type) match.type = req.body.type;
+
+    res.send(match);
+  } else {
+    res.status(404).send({ error: "house not found." });
+  }
+});
+
 app.listen(port, () => {
   console.log(`Example app listening on port http://localhost:${port}`);
 });
